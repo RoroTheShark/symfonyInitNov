@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Repository\BookRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,18 @@ class BookController extends AbstractController
     {
         return $this->render('book/index.html.twig', [
             'controller_name' => 'BookController',
+        ]);
+    }
+
+    /**
+     * @Route("/book/list", name="bookList")
+     */
+    public function list(BookRepository $bookRepository): Response
+    {
+
+        $books = $bookRepository->findAll();
+        return $this->render('book/list.html.twig', [
+            'books' => $books,
         ]);
     }
 
