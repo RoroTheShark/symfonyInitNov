@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Critique</title>
+    <link rel="stylesheet" href="{{asset("css/style.css")}}">
+</head>
+<body>
+
+    <header>
+        <h1>Les critiques de Thomas</h1>
+        <cite>{% block citation %}{% endblock %}</cite>
+    </header>
+
+    <nav>
+        <ul>
+            <li>Articles</li>
+            <li>A propos de</li>
+            <li>
+                <a href="{{ path('contact') }}">Contact</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+        {% block contenu %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Site développé durant la formation Symfony</p>
+    </footer>
+    
+</body>
+</html>

@@ -1,0 +1,5 @@
+<div class="miniArticle">
+    <h2><a href="{{path('articleDetails', {'id': article.id})}}">{{article.title}}</a></h2>
+    <p class="articleBody">{{article.body}}</p>
+    <p class="articleDate">{{article.date|date("d/m/Y")}}</p>
+</div>

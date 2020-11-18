@@ -1,0 +1,88 @@
+header {
+    background-color: bisque;
+    min-height: 80px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 40pt;
+}
+
+nav ul {
+    text-align: center;
+}
+
+nav li {
+    display: inline;
+    margin: 0 30px 0 30px;
+}
+
+main {
+    min-height: 600px;
+    max-width: 1000px;
+    margin: auto;
+    text-align: justify;
+}
+
+
+
+footer {
+    height: 80px;
+    text-align: center;
+    background-color: black;
+    color: white;
+    font-style: italic;
+}
+
+#bannerFormation {
+    background-color: burlywood;
+    border: 1px solid black;
+    text-align: center;
+}
+
+#bannerFormation img {
+    width: 100px;
+}
+
+.numericValue {
+    font-weight: bold;
+    background-color: lightgray;
+}
+
+#nomRevision {
+    text-align: center;
+    font-size: 60pt;
+}
+
+.miniArticle {
+    background-color: lightyellow;
+    border: 2px solid black;
+    margin: 50px;
+    padding: 30px;
+}
+
+.miniArticle h2 {
+    font-size: 24pt;
+}
+
+.miniArticle a {
+    color: black;
+    text-decoration: none;
+}
+
+.articleBody {
+    text-align: justify;
+    max-width: 800px;
+    margin: auto;
+}
+
+.articleDate {
+    text-align: right;
+    font-style: italic;
+}
+
+.labelForm {
+    font-weight: bold;
+    display: inline-block;
+    width: 80px;
+}

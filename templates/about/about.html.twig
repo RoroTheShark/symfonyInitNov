@@ -1,0 +1,15 @@
+{% extends "parent.html.twig" %}
+
+
+{% block contenu %}
+<ul>
+    {% for value in values %}
+        <li
+            {% if value matches '/^[\\d]+$/' %} 
+                class="numericValue" 
+            {% endif %} 
+        > Valeur {{loop.index}} : {{value}}  </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

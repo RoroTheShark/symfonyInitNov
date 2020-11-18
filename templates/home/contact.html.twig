@@ -1,0 +1,16 @@
+{% extends "parent.html.twig" %}
+
+{% block citation %}
+    nous sommes à votre disposition
+{% endblock %}
+
+{% block contenu %}
+
+    <p>
+       Vous pouvez nous contacter à l'adresse suivante : 
+       <a href="mailto:{{ email }}">{{ email }}</a> 
+    </p>
+
+    {% include "home/banner.html.twig" %}
+
+{% endblock %}

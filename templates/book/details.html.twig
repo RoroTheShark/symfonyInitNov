@@ -1,0 +1,22 @@
+{% extends "parent.html.twig" %}
+
+{% block contenu %}
+
+    <h1>{{ book.title }}</h1>
+
+    <p>Résumé : {{ book.resume }}</p>
+    <p>nb de pages : {{ book.nbOfPages }}</p>
+    <p>date de publication : {{ book.publishedDate|date("d/m/Y") }}</p>
+
+    <br><br>
+    <h2>Critiques : </h2>
+
+    {% for article in book.articles %}
+
+        {{ include("article/_article.html.twig", {"article":article}) }}
+        
+    {% else %}
+            
+    {% endfor %}
+
+{% endblock %}

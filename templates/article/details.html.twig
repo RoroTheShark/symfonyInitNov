@@ -1,0 +1,10 @@
+{% extends "parent.html.twig" %}
+
+{% block contenu %}
+
+  <p>Titre : {{ article.title }}</p>
+  <p> Corps : {{ article.body }}</p>
+  <p> Auteur : {{ article.author }}</p>
+  <p> Date : {{ article.date|date("d/m/Y") }}</p>
+
+{% endblock %}
