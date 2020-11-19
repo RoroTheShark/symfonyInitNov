@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class BookController extends AbstractController
 {
@@ -39,6 +40,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/book/create", name="bookCreatePost", methods={"POST"})
+     * @IsGranted("ROLE_WRITER")
      */
     public function createPost(Request $request): Response
     {
@@ -67,6 +69,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/book/create", name="bookCreate", methods={"GET"})
+     * @IsGranted("ROLE_WRITER")
      */
     public function create(): Response
     {
