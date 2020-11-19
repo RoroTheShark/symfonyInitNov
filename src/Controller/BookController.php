@@ -27,6 +27,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/book/list", name="bookList")
+     * @isGranted("ROLE_USER")
      */
     public function list(BookRepository $bookRepository): Response
     {

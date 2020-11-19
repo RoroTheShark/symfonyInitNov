@@ -17,6 +17,10 @@
         </div>
     {% endfor %}
 
+    {% if app.user is not null %}
+        <p id="welcome">Bienvenue {{app.user.fullname}}</p>
+    {% endif %}
+
     <header>
         <h1>Les critiques de Thomas</h1>
         <cite>{% block citation %}{% endblock %}</cite>
@@ -31,6 +35,11 @@
             <li>
                 <a href="{{ path('contact') }}">Contact</a>
             </li>
+
+            {% if is_granted('ROLE_WRITER')%}
+                <li><a href="{{ path('bookCreate')}}">Créer Livre</a></li>
+                <li><a href="{{ path('articleCreate')}}">Créer Article</a></li>
+            {% endif %}
         </ul>
     </nav>
 
