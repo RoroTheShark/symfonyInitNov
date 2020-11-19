@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Critique</title>
     <link rel="stylesheet" href="{{asset("css/style.css")}}">
+
+
+
 </head>
 <body>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
 
     <header>
         <h1>Les critiques de Thomas</h1>

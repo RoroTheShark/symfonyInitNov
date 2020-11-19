@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Book;
+use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,6 +19,12 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('category', EntityType::class, [
+                "label" => 'Catégorie',
+                "label_attr" => ['class' => 'labelForm'],
+                "class" => Category::class,
+                "choice_label" => "name"
+            ])
             ->add('title', TextType::class, [
                 "label" => "Titre",
                 "label_attr" => [ "class" => "labelForm"]
@@ -32,6 +39,8 @@ class ArticleType extends AbstractType
                     "class" => Book::class,
                     "choice_label" => 'title'
                     ])
+            
+            
             ->add('author', TextType::class, [
                 "label" => "Auteur",
                 "label_attr" => [ "class" => "labelForm"]
@@ -44,6 +53,7 @@ class ArticleType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer'
             ])
+            
         ;
     }
 

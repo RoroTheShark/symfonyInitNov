@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\BookRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,12 +49,18 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/article/create", name="articleCreate", methods={"GET"})
+     * @Route("/article/create/", name="articleCreate", methods={"GET"})
      */
-    public function create(): Response
+    public function create(Request $request, BookRepository $bookRepository): Response
     {
 
-        $form = $this->createForm(ArticleType::class);
+        $article = new Article();
+        if($bookId = $request->get('bookId')) {
+            $book = $bookRepository->find($bookId);
+            $article->setBook($book);
+        }
+
+        $form = $this->createForm(ArticleType::class, $article);
 
         return $this->render('article/create.html.twig', [
             'articleForm' => $form->createView(),
@@ -82,6 +89,47 @@ class ArticleController extends AbstractController
         }
 
         return $this->render('article/create.html.twig', [
+            'articleForm' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/article/edit/{id}", name="articleEdit", methods={"GET"})
+     */
+    public function edit(Article $article): Response
+    {
+
+        $form = $this->createForm(ArticleType::class, $article);
+
+        return $this->render('article/edit.html.twig', [
+            'articleForm' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/article/edit/{id}", name="articleEditPost", methods={"POST"})
+     */
+    public function editPost(Request $request, Article $article): Response
+    {
+        $form = $this->createForm(ArticleType::class, $article);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            $this->addFlash('success', "L'article a bien été modifié !");
+
+            return $this->redirectToRoute("articleList");
+
+        }
+
+        return $this->render('article/edit.html.twig', [
             'articleForm' => $form->createView(),
         ]);
     }

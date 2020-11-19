@@ -73,7 +73,46 @@ class BookController extends AbstractController
         $form = $this->createForm(BookType::class);
 
         return $this->render('book/create.html.twig', [
+            'bookForm' => $form->createView(), 
+            'presentation' => "Création d'un nouveau livre"
+        ]);
+    }
+
+
+    /**
+     * @Route("/book/edit/{id}", name="bookEditPost", methods={"POST"})
+     */
+    public function editPost(Request $request, Book $book): Response
+    {
+        $form = $this->createForm(BookType::class, $book);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($book);
+            $em->flush();
+
+            return $this->redirectToRoute('bookDetails', ['id' => $book->getId()]);
+        }
+
+        return $this->render('book/create.html.twig', [
             'bookForm' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/book/edit/{id}", name="bookEdit", methods={"GET"})
+     */
+    public function edit(Book $book): Response
+    {
+        $form = $this->createForm(BookType::class, $book);
+
+        return $this->render('book/create.html.twig', [
+            'bookForm' => $form->createView(),
+            'presentation' => "Modification de " . $book->getTitle()
         ]);
     }
 

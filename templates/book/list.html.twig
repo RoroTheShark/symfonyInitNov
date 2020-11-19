@@ -8,6 +8,8 @@
             <th>Titre</th>
             <th>Date de parution</th>
             <th>Nb de pages</th>
+            <th>Nb articles</th>
+            <th>Actions</th>
         </tr>
     </thead>
 
@@ -19,6 +21,9 @@
             <td>{{book.title}}</td>
             <td>{{book.publishedDate|date('d/m/Y')}}</td>
             <td>{{book.nbOfPages}}</td>
+            <td>{{book.articles|length}}</td>
+            <td><a href="{{ path("bookDetails", {'id': book.id}) }}">Voir</a> - 
+                <a href="{{ path("bookEdit", {'id' : book.id}) }}">Modifier</a></td>
         </tr>
             
         {% endfor %}
