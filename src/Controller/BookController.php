@@ -30,7 +30,7 @@ class BookController extends AbstractController
     public function list(BookRepository $bookRepository): Response
     {
 
-        $books = $bookRepository->findAll();
+        $books = $bookRepository->findAllWithArticles();
         return $this->render('book/list.html.twig', [
             'books' => $books,
         ]);

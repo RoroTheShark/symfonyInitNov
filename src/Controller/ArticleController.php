@@ -37,6 +37,18 @@ class ArticleController extends AbstractController
     }
 
     /**
+     * @Route("/critics/list", name="criticsList")
+     */
+    public function critics(ArticleRepository $articleRepository): Response
+    {
+        $articles = $articleRepository->findCritics();
+
+        return $this->render('article/list.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+    /**
      * @Route("/article/details/{id}", name="articleDetails")
      */
     public function details(Article $article): Response

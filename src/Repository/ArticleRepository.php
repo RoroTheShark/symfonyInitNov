@@ -19,6 +19,18 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function findCritics()
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.book', 'b')
+            ->leftJoin('a.category', 'c')
+            ->addSelect('c')
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */
