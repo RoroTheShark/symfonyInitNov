@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Book
 {
@@ -130,5 +132,14 @@ class Book
         }
 
         return $this;
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setDefaultPublishedDateValue() {
+        if($this->publishedDate == null) 
+            $this->publishedDate = new DateTime('now');
     }
 }
