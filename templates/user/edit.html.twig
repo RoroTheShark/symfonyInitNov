@@ -1,0 +1,34 @@
+{% extends "parent.html.twig" %}
+
+
+{% block contenu %}
+
+
+    {{ form_start(userForm) }}
+
+        {{form_row(userForm.username)}}
+        {{form_row(userForm.firstname)}}
+        {{form_row(userForm.lastname)}}
+        {{form_row(userForm.dateOfBirth)}}
+
+        <fieldset>
+            <legend>Roles</legend>
+
+            <p><input type="checkbox" name="roleUserCB"  
+                {% if 'ROLE_USER' in user.roles %}checked{% endif %}> 
+                <label>ROLE_USER</label></p>
+                
+            <p><input type="checkbox" name="roleWriterCB" 
+                {% if 'ROLE_WRITER' in user.roles %}checked{% endif %}> 
+                <label>ROLE_WRITER</label></p>
+
+            <p><input type="checkbox" name="roleAdminCB" 
+                {% if 'ROLE_ADMIN' in user.roles %}checked{% endif %}> 
+                <label>ROLE_ADMIN</label></p>
+        </fieldset>
+
+        {{form_row(userForm.submit)}}
+
+    {{ form_end(userForm)}}
+
+{% endblock %}
