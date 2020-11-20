@@ -1,0 +1,9 @@
+{% extends "parent.html.twig" %}
+
+{% block contenu %}
+
+    {% for article in articles %}
+        {% include "article/_article.html.twig" %}
+    {% endfor %}
+
+{% endblock %}

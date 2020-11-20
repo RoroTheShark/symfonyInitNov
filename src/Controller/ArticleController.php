@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Form\ArticleAutoUserType;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\BookRepository;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ArticleController extends AbstractController
 {
@@ -61,18 +63,26 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/article/create/", name="articleCreate", methods={"GET"})
+     * @Route("/article/create", name="articleCreate", methods={"GET"})
      */
     public function create(Request $request, BookRepository $bookRepository): Response
     {
-
         $article = new Article();
+        $type = ArticleType::class;
+        
+        if($user = $this->getUser()) {
+            $type = ArticleAutoUserType::class;
+            $article->setAuthor($user->getFullname());
+        }
+
+        
         if($bookId = $request->get('bookId')) {
             $book = $bookRepository->find($bookId);
             $article->setBook($book);
         }
+        
 
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm($type, $article);
 
         return $this->render('article/create.html.twig', [
             'articleForm' => $form->createView(),
@@ -84,13 +94,23 @@ class ArticleController extends AbstractController
      */
     public function createPost(Request $request): Response
     {
-        $form = $this->createForm(ArticleType::class);
+        $type = ArticleType::class;
+        if($this->getUser())
+            $type = ArticleAutoUserType::class;
+
+        $form = $this->createForm($type);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
 
             $article = $form->getData();
+
+            if($user = $this->getUser()) {
+                $article->setUser($user);
+                $article->setAuthor($user->getFullname());
+            }
+
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
@@ -111,7 +131,6 @@ class ArticleController extends AbstractController
      */
     public function edit(Article $article): Response
     {
-
         $form = $this->createForm(ArticleType::class, $article);
 
         return $this->render('article/edit.html.twig', [
@@ -145,6 +164,22 @@ class ArticleController extends AbstractController
             'articleForm' => $form->createView(),
         ]);
     }
+
+
+    /**
+     * @Route("/mes-articles", name="mesArticles")
+     * @isGranted("ROLE_USER")
+     */
+    public function mesArticles(): Response
+    {
+        $user = $this->getUser();
+        $articles = $user->getArticles();
+
+        return $this->render('article/mes_articles.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
 
     /**
      * @Route("/data/create", name="dataCreation")

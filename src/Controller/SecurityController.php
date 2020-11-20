@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,7 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
@@ -84,4 +86,45 @@ class SecurityController extends AbstractController
 
         return new Response("Utilisateurs créés.");
     }
+
+    /**
+     * @Route("/user/register", name="userRegisterPost", methods={"POST"})
+     */
+    public function userCreatePost(Request $request, UserPasswordEncoderInterface $passwordEncoder) : Response
+    {
+        $form = $this->createForm(UserType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $user = $form->getData();
+
+            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPassword()));
+
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('security/register.html.twig', [
+            'userForm' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/user/register", name="userRegister", methods={"GET"})
+     */
+    public function userCreate() : Response
+    {
+        $form = $this->createForm(UserType::class);
+
+        return $this->render('security/register.html.twig', [
+            'userForm' => $form->createView()
+        ]);
+    }
+
 }
